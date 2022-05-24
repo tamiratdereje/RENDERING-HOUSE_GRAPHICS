@@ -36,3 +36,12 @@ class Camera:
         self.camera_right = vector.normalise(vector3.cross(self.camera_front, Vector3([0.0, 1.0, 0.0])))
         self.camera_up = vector.normalise(vector3.cross(self.camera_right, self.camera_front))
 
+    def process_keyboard(self, direction, velocity):
+        if direction == "W":
+            self.camera_pos += self.camera_front * velocity
+        if direction == "S":
+            self.camera_pos -= self.camera_front * velocity
+        if direction == "A":
+            self.camera_pos -= self.camera_right * velocity
+        if direction == "D":
+            self.camera_pos += self.camera_right * velocity
