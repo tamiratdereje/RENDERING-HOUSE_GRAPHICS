@@ -52,3 +52,42 @@ class ObjectLoader:
                 elif i == 2:
                     for ver in self.normals[val]:
                         self.all_points.append(ver)
+
+                        
+    def load_the_model(self):
+        with open(self.path, 'r') as read:
+            line = read.readline()
+
+            vrt_inx, tex_inx, nor_inx = 1, 1, 1
+            condition = "ta"
+
+            while line:
+                given_input = line.split()
+                if len(given_input) == 0:
+                    continue
+
+                data = given_input[1:]
+
+                if given_input[0] == 'v':
+
+                    self.enter_the_number(vrt_inx, data, 'vertices')
+                    vrt_inx += 1
+
+                elif given_input[0] == 'vt':
+
+                    self.enter_the_number(tex_inx, data, 'texture')
+                    tex_inx += 1
+
+                elif given_input[0] == 'vn':
+                    self.enter_the_number(nor_inx, data, 'normal')
+                    nor_inx += 1
+
+                elif given_input[0] == 'f':
+                    for value in given_input[1:]:
+                        face_index = value.split('/')
+                        self.enter_the_number(0, face_index, 'face')
+
+                line = read.readline()
+        all_points = self.all_points.copy()
+        self.all_points = []
+        return self.all_indices, np.array(all_points, dtype='float32')
