@@ -53,7 +53,11 @@ class ObjectLoader:
                     for ver in self.normals[val]:
                         self.all_points.append(ver)
 
-                        
+                elif i == 3:
+                    for ver in self.texture[val]:
+                        self.all_points.append(ver)
+                    i += 1
+
     def load_the_model(self):
         with open(self.path, 'r') as read:
             line = read.readline()
