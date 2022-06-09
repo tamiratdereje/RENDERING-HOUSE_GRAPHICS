@@ -53,3 +53,39 @@ def mouse_look_clb(window, xpos, ypos):
     lastY = ypos
     mycam.process_mouse_movement(xoffset, yoffset)
 
+
+
+def drawer(index, given_indices, pos):
+    glBindVertexArray(VAO[index])
+    glBindTexture(GL_TEXTURE_2D, textures[index])
+    glUniformMatrix4fv(model_location, 1, GL_FALSE, pos)
+    glDrawArrays(GL_TRIANGLES, 0, given_indices)
+
+
+def binder(object_buffer, index):
+    glBindVertexArray(VAO[index])
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[index])
+    glBufferData(GL_ARRAY_BUFFER, object_buffer.nbytes, object_buffer, GL_STATIC_DRAW)
+
+    glEnableVertexAttribArray(0)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, object_buffer.itemsize * 8, ctypes.c_void_p(0))
+
+    glEnableVertexAttribArray(1)
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, object_buffer.itemsize * 8, ctypes.c_void_p(12))
+
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, object_buffer.itemsize * 8, ctypes.c_void_p(20))
+    glEnableVertexAttribArray(2)
+
+
+
+def getFileContents(filename):
+    p = os.path.join(os.getcwd(), "shaders", filename)
+    return open(p, 'r').read()
+# glfw callback functions
+
+
+def window_resize(window, width, height):
+    glViewport(0, 0, width, height)
+    projection = pyrr.matrix44.create_perspective_projection_matrix(45, width / height, 0.1, 100)
+    glUniformMatrix4fv(projection_location, 1, GL_FALSE, projection)
+
