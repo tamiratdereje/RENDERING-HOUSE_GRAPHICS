@@ -203,3 +203,48 @@ projection_location = glGetUniformLocation(shader, "projection")
 view_location = glGetUniformLocation(shader, "view")
 
 glUniformMatrix4fv(projection_location, 1, GL_FALSE, projection)
+
+
+while not glfw.window_should_close(window):
+
+    glfw.poll_events()
+    # do_movement()
+
+    if left:
+        mycam.process_keyboard("A", 0.07)
+    if right:
+        mycam.process_keyboard("D", 0.07)
+    if forward:
+        mycam.process_keyboard("W", 0.07)
+    if backward:
+        mycam.process_keyboard("S", 0.07)
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+    view = mycam.get_view_matrix()
+    glUniformMatrix4fv(view_location, 1, GL_FALSE, view)
+
+    rot_y = pyrr.Matrix44.from_y_rotation(0.5 * glfw.get_time())
+    #       **********************    here is where u draw the object      ****************************
+
+    drawer(0, dog_indices, dog_pos)
+    drawer(1, wall_indices, wall_pos)
+    drawer(2, fence_indices, fence_pos)
+    drawer(3, roof_indices, roof_pos)
+    drawer(4, windowsanddoor_indices, windowanddoor_pos)
+    drawer(5, beranda_indices, beranda_pos)
+    drawer(6, outdoor_indices, outdoor_pos)
+    drawer(7, ground_indices, ground_pos)
+    drawer(8, gomma_indices, gomma_pos)
+    drawer(9, roof_indices, poll_pos)
+    drawer(10, bowl_indices, bowl_pos)
+    drawer(11, doorbench_indices, doorbench_pos)
+    drawer(12, roofdecor_indices, roofdecor_pos)
+    drawer(13, ceil_indices, ceil_pos)
+    drawer(14, mestawot_indices, mestawot_pos)
+    drawer(15, roof_bottom_indices, roof_bottom_pos)
+
+
+    glfw.swap_buffers(window)
+
+glfw.terminate()
